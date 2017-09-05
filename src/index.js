@@ -8,7 +8,8 @@ import './fonts/fonts.css'
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-
+import GAN from './utils/GAN'
+import ImageEncoder from './utils/ImageEncoder'
 ReactDOM.render(
     <HashRouter>
         <Route path="/" component={App} />
@@ -16,3 +17,5 @@ ReactDOM.render(
     document.getElementById('root')
 );
 registerServiceWorker();
+window.GAN = GAN;
+window.ImageEncoder = ImageEncoder;
