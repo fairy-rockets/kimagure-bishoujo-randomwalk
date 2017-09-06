@@ -4,8 +4,9 @@ set -eu
 
 CHROME=google-chrome
 MAX=72000
+WORKERS=32
 
-for ((i=0; i < 15; i++)); do
+for ((i=0; i < ${WORKERS}; i++)); do
   {
     set -x
     ${CHROME} --headless --disable-gpu --remote-debugging-port=$((10000 + $i)) 'http://localhost:8080' &
