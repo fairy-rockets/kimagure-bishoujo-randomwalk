@@ -27,8 +27,8 @@ function init(Runtime) {
         return Math.min(Math.max(value, min), max);
       }
       var gan = new GAN();
-      var noise = new Array(128).fill(0);
-      var label = new Array(34).fill(0);
+      var noise = new Array(128).map(uniformToNormal);
+      var label = new Array(34).map(uniformToNormal);
       gan.init();`,
     awaitPromise: true})
   .then((r) => { console.log("Init ok: ", r); return r; })
