@@ -22,4 +22,4 @@ web:
 	cd build; python3 -m http.server 8080
 
 batch:
-	nohup bash generate.sh 2>&1 > gen.log &
+	bash generate.sh > gen.log 2>&1
