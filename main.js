@@ -1,8 +1,6 @@
 const chrome = require('chrome-remote-interface');
 
 const fs = require('fs');
-const src = fs.readFileSync("./generator.js", "utf8");
-const output = fs.createWriteStream('./output.txt');
 const dataurl = require('dataurl');
 var argv = process.argv;
 if(argv.length <= 4) {
@@ -56,8 +54,6 @@ function generateLoop(Runtime, i, max) {
     console.log("["+workerStr+"]Step: ", stepStr ," / ", max," [", new Date()-startTime, " msec]")
     var r = dataurl.parse(res.result.value)
     const fname = ( "000000" + i ).substr(-7)
-    output.write(res.result.value)
-    output.write('\n')
   
     var next = new Promise(function(resolve, reject){
       fs.writeFile(workerDir+"/"+fname+".png", r.data, (err) => {
