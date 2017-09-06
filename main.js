@@ -11,7 +11,7 @@ const chromePort = parseInt(process.argv[3],10);
 const max = parseInt(process.argv[4],10);
 
 const workerStr = ( "000" + workerId ).substr(-4)
-const workerDir = "img"+( "000" + workerId ).substr(-4)
+const workerDir = "img."+( "000" + workerId ).substr(-4)
 
 function init(Runtime) {
   return Runtime.evaluate({
