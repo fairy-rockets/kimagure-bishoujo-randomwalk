@@ -4,7 +4,7 @@ set -eu
 
 CHROME=google-chrome
 MAX=72000
-WORKERS=32
+WORKERS=40
 
 for ((i=0; i < ${WORKERS}; i++)); do
   {
