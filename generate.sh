@@ -3,7 +3,7 @@
 set -eu
 
 CHROME=google-chrome
-MAX=14400
+MAX=72000
 
 for ((i=0; i < 15; i++)); do
   {

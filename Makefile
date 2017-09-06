@@ -1,4 +1,4 @@
-.PHONY: generate gif chrome build http
+.PHONY: generate gif chrome build web
 
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
@@ -21,5 +21,5 @@ chrome:
 build:
 	npm run build
 
-http:
+web:
 	cd build; python3 -m http.server 8080
