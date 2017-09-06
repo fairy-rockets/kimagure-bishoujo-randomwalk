@@ -12,6 +12,7 @@ for ((i=0; i < 15; i++)); do
     sleep 5
     mkdir -p $(printf "img%04d" $i)
     node main.js $i $((10000 + $i)) ${MAX} &
+    wait
     set +x
   } &
 done
