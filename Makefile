@@ -1,4 +1,4 @@
-.PHONY: generate gif chrome build web
+.PHONY: generate gif chrome build web batch
 
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
@@ -20,3 +20,6 @@ build:
 
 web:
 	cd build; python3 -m http.server 8080
+
+batch:
+	nohup bash generate.sh 2>&1 > gen.log &
