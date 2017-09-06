@@ -6,11 +6,11 @@ generate:
 	mkdir -p img0000
 	node main.js 0 10000 30
 
-anime.mp4:
-	ffmpeg -y -r 120 -i img/%07d.png -vf "tblend=average,framestep=2" -vcodec libx264 -pix_fmt yuv420p -b:v 20000k -profile:v high -preset veryslow -r 60 anime.mp4
+anime.0000.mp4:
+	ffmpeg -y -r 120 -i img.0000/%07d.png -vf "tblend=average,framestep=2" -vcodec libx264 -pix_fmt yuv420p -b:v 20000k -profile:v high -preset veryslow -r 60 anime.0000.mp4
 
-clean-data:
-	rm -f output.txt img/*.png anime.gif
+clean:
+	rm -rf img.* anime.*.mp4
 
 chrome:
 	$(CHROME) --headless --disable-gpu --remote-debugging-port=10000 'http://localhost:8080'
