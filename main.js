@@ -16,17 +16,23 @@ const workerDir = "img"+( "000" + workerId ).substr(-4)
 function init(Runtime) {
   return Runtime.evaluate({
     expression:`
-      function uniformToNormal() {
+      function uniformToNormal(notUsed) {
         var u = 1 - Math.random();
         var v = 1 - Math.random();
         return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+      }
+      function uniform(notUsed) {
+        return 2*Math.random() - 1;
+      }
+      function zero(notUsed) {
+        return 0;
       }
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
       }
       var gan = new GAN();
-      var noise = new Array(128).map(uniformToNormal);
-      var label = new Array(34).map(uniformToNormal);
+      var noise = new Array(128).fill(0);
+      var label = new Array(34).fill(0);
       gan.init();`,
     awaitPromise: true})
   .then((r) => { console.log("Init ok: ", r); return r; })
