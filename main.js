@@ -4,6 +4,16 @@ const fs = require('fs');
 const src = fs.readFileSync("./generator.js", "utf8");
 const output = fs.createWriteStream('./output.txt');
 const dataurl = require('dataurl');
+var argv = process.argv;
+if(argv.length <= 4) {
+  console.log("node index.js [worker id] [max]");
+}
+const workerId = process.argv[2];
+const chromePort = parseInt(process.argv[3],10);
+const max = parseInt(process.argv[4],10);
+
+const workerStr = ( "000" + workerId ).substr(-4)
+const workerDir = "img"+( "000" + workerId ).substr(-4)
 
 function init(Runtime) {
   return Runtime.evaluate({
@@ -42,14 +52,15 @@ function generate(Runtime) {
 function generateLoop(Runtime, i, max) {
   var startTime = new Date();
   return generate(Runtime).then(function(res) {
-    console.log("Step: ", i ," / ", max," [", new Date()-startTime, " msec]")
+    const stepStr = ( "      " + i ).substr(-7)
+    console.log("["+workerStr+"]Step: ", stepStr ," / ", max," [", new Date()-startTime, " msec]")
     var r = dataurl.parse(res.result.value)
     const fname = ( "000000" + i ).substr(-7)
     output.write(res.result.value)
     output.write('\n')
   
     var next = new Promise(function(resolve, reject){
-      fs.writeFile("img/"+fname+".png", r.data, (err) => {
+      fs.writeFile(workerDir+"/"+fname+".png", r.data, (err) => {
         if(err){
           reject(err);
         }else{
@@ -66,7 +77,7 @@ function generateLoop(Runtime, i, max) {
 }
 
 var i = 0
-chrome(protocol => {
+chrome({port: chromePort}, protocol => {
   // DevTools プロトコルから、必要なタスク部分を抽出する。
   // API ドキュメンテーション: https://chromedevtools.github.io/devtools-protocol/
   const {Page, Runtime} = protocol;
@@ -76,7 +87,7 @@ chrome(protocol => {
     Page.enable(),
     Runtime.enable()
   ])
-  .then(() => init(Runtime).then(() => generateLoop(Runtime, 0, 1000000000)))
+  .then(() => init(Runtime).then(() => generateLoop(Runtime, 0, max)))
   .then(() => protocol.close())
   .catch((err) => console.error(err));
 

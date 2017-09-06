@@ -6,8 +6,11 @@ generate:
 	node main.js
 
 gif:
-	rm -f anime.gif
-	convert -delay 2 -loop 0 img/*.png  anime.gif
+	rm -f anime.gif anime.mp4
+	@# convert -delay 2 -loop 0 img/*.png  anime.gif
+	#@ffmpeg -r 120 -i img/%07d.png -vcodec libx264 -pix_fmt yuv420p -b:v 20000k -profile:v high -preset veryslow -r 60 anime.mp4 2> /dev/null
+	ffmpeg -r 120 -i img/%07d.png -vf "tblend=average,framestep=2" -vcodec libx264 -pix_fmt yuv420p -b:v 20000k -profile:v high -preset veryslow -r 60 anime.mp4
+
 
 clean-data:
 	rm -f output.txt img/*.png anime.gif
